@@ -7,7 +7,7 @@ const MysqlStore = require('koa-mysql-session');
 const config = require('./config/default.js');
 const routers = require('./routes')
 const views = require('koa-views')
-// const koaStatic = require('koa-static')
+const serve = require('koa-static')
 const staticCache = require('koa-static-cache')
 const app = new Koa()
 
@@ -28,9 +28,9 @@ app.use(session({
 
 
 // 配置静态资源加载中间件
-// app.use(koaStatic(
-//   path.join(__dirname , './public')
-// ))
+app.use(serve(
+  config.staticPath
+))
 // 缓存
 app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
   maxAge: 365 * 24 * 60 * 60

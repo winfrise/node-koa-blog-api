@@ -22,6 +22,11 @@ const {
   postRegister 
 } = require('../../controller/c-register')
 
+const {
+  uploadSingleFile,
+  uploadSingleFileCallback,
+  uploadMultipleFiles
+} = require('../../controller/c-upload')
 
 module.exports = (app, router) => {
   router.post('/admin-api/user/login', postLogin)// 登录接口
@@ -32,6 +37,8 @@ module.exports = (app, router) => {
   router.post('/admin-api/article/create', postCreateArticle)  // 发表文章接口
   router.get('/admin-api/article/list', getArticleList) // 文章列表接口
   router.get('/admin-api/article/detail', getArticleDetail) // 文章列表接口
+  router.post('/admin-api/upload/singleFile', uploadSingleFile, uploadSingleFileCallback) // 上传单个文件
+  router.post('/admin-api/upload/multipleFiles', uploadMultipleFiles) // 上传多个文件
 
   app
     .use(router.routes())

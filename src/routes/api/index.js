@@ -9,8 +9,9 @@ module.exports = (app) => {
 
   // 404
   app.use(async (ctx, next) => {
-    await ctx.render('404', {
-      title: 'page not find'
-    })
+    ctx.body = {
+      code: 404,
+      message: '404'
+    }
   })
 }
