@@ -1,17 +1,19 @@
 const multer = require('@koa/multer');
 const config = require('../config/default.js')
 
+const { insertSource, findUserByToken } = require('../db/mysql');
+
 const { moment, mkdirFolder } = require('../tools')
-const uploadPath = `${config.staticPath}/uploads`
+const savePath = `${config.staticPath}/uploads`
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadPath)
+    cb(null, savePath)
   },
   filename: function (req, file, cb) {
     let today = moment().format('YYYY-MM-DD')
 
-    mkdirFolder(`${uploadPath}/${today}`)
+    mkdirFolder(`${savePath}/${today}`)
 
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
 
@@ -25,13 +27,47 @@ var storage = multer.diskStorage({
 })
 const upload = multer({ storage})
 
-exports.uploadSingleFile = upload.single('avatar')
+exports.uploadSingleFile = upload.single('file')
 
 exports.uploadSingleFileCallback = async (ctx) => {
-    let { path, filename} = ctx.file
-    console.log(ctx.file)
+    let token = ctx.request.header['x-token']
+    let { path, filename, originalname} = ctx.file
+    let filePath = `${config.hostname}/uploads/${filename}`
 
+    let uid
+    let err = await findUserByToken({token})
+      .then(result => {
+        if (!result.length) {
+          return 'error'
+        }
+        uid = result[0].id
+      })
+      .catch(err => {
+        return err
+      })
+
+    if (err) {
+      console.log(err)
+      return ctx.body = {
+        code: 20004,
+        message: err.message
+      }
+    }
     let pathSplit = path.split('/')
+    filename = pathSplit[pathSplit.length - 1]
+
+    let originalnameSplit = originalname.split('.')
+    let title = originalnameSplit[0]
+
+    await insertSource({
+      filePath,
+      title,
+      uid,
+      createTime: moment().format('YYYY-MM-DD HH:mm:ss')
+    })
+    .catch(err => {
+      return err
+    })
     
     ctx.body = {
       code: 20000,

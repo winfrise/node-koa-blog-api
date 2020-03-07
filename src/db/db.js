@@ -41,6 +41,20 @@ let article =
  PRIMARY KEY(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;`
 
+let source =
+`create table if not exists source(
+ id INT NOT NULL AUTO_INCREMENT,
+ title VARCHAR(400) NOT NULL COMMENT '图片/视频等名称',
+ contentShort VARCHAR(600) NULL COMMENT '概要',
+ typeId INT NULL COMMENT '所属分类id',
+ uid INT NOT NULL COMMENT '用户id',
+ createTime VARCHAR(100) NOT NULL COMMENT '创建时间',
+ tags VARCHAR(100) NULL COMMENT 'Tag',
+ status INT NOT NULL DEFAULT 1 COMMENT '',
+ filePath VARCHAR(300) NULL COMMENT '图片',
+ PRIMARY KEY(id)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;`
+
 let comment =
 `create table if not exists comment(
  id INT NOT NULL AUTO_INCREMENT,
@@ -58,3 +72,4 @@ let comment =
 createTable(users)
 createTable(article)
 createTable(comment)
+createTable(source)

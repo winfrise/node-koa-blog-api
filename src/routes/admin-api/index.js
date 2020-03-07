@@ -28,6 +28,10 @@ const {
   uploadMultipleFiles
 } = require('../../controller/c-upload')
 
+const {
+  getSourceList
+} = require('../../controller/c-source')
+
 module.exports = (app, router) => {
   router.post('/admin-api/user/login', postLogin)// 登录接口
   router.post('/admin-api/user/logout', postSignout) // 退出登录接口
@@ -39,6 +43,7 @@ module.exports = (app, router) => {
   router.get('/admin-api/article/detail', getArticleDetail) // 文章列表接口
   router.post('/admin-api/upload/singleFile', uploadSingleFile, uploadSingleFileCallback) // 上传单个文件
   router.post('/admin-api/upload/multipleFiles', uploadMultipleFiles) // 上传多个文件
+  router.get('/admin-api/source/list', getSourceList) // 获取资源列表
 
   app
     .use(router.routes())

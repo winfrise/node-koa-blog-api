@@ -1,10 +1,12 @@
 require('./db')
 const usersSql = require('./users-sql')
 const articleSql = require('./article-sql')
+const sourceSql = require('./source-sql')
 
 module.exports = {
   ...usersSql,
-  ...articleSql
+  ...articleSql,
+  ...sourceSql
 }
 // const { 
 //   insertUser, 
