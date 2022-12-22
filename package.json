@@ -17,7 +17,7 @@
     "@koa/multer": "^2.0.2",
     "config-lite": "^2.0.0",
     "ejs": "^2.5.6",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-mysql-session": "^0.0.2",
